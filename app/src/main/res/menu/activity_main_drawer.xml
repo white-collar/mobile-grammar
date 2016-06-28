@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/menu_all_articles" android:icon="@drawable/list_icon_item"
+            android:title="@string/all_articles_menu_title" />
+    </group>
+
+    <item android:title="@string/lessons_by_chapters">
+        <menu>
+            <item android:id="@+id/menu_group1" android:icon="@drawable/user_lessons_group_icons"
+                android:title="@string/group1_title_menu" />
+            <item android:id="@+id/menu_group2" android:icon="@drawable/user_lessons_group_icons"
+                android:title="@string/group2_title_menu" />
+            <item android:id="@+id/menu_group3" android:icon="@drawable/user_lessons_group_icons"
+                android:title="@string/group3_title_menu" />
+            <item android:id="@+id/menu_group4" android:icon="@drawable/user_lessons_group_icons"
+                android:title="@string/group4_title_menu" />
+        </menu>
+    </item>
+    <item android:title="@string/lessons_by_chapters">
+        <menu>
+            <item android:id="@+id/menu_user_groups" android:icon="@android:drawable/ic_menu_share"
+                android:title="@string/your_groups" />
+        </menu>
+    </item>
+
+</menu>

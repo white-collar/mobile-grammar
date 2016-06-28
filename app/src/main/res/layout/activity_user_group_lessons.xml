@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="50dp"
+    tools:context="jeston.org.mobilegrammar.UserGroupLessonsActivity">
+
+    <LinearLayout
+        android:id="@+id/lin_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/emptyListUserGroupTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/not_yet_user_group"
+            android:textSize="25sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emptyListUserGroupTextView"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/create_new_user_group_button" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listViewUserGroups"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextSearchField"
+        android:focusable="false" />
+</RelativeLayout>

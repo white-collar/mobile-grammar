@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item
+        android:id="@+id/context_menu_edit_group"
+        android:icon="@drawable/ic_edit_white_24dp"
+        android:title="@string/edit_group" />
+
+    <item
+        android:id="@+id/context_menu_remove_group"
+        android:icon="@drawable/ic_remove_circle_outline_white_24dp"
+        android:title="@string/remove_group" />
+</menu>

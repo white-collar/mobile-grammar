@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="jeston.org.mobilegrammar.AddReminderToGroupActivity">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:text="Name group stub string"
+        android:id="@+id/textViewNameNewGroup"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:elegantTextHeight="false" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="50sp"
+        android:textSize="20sp"
+        android:text="@string/text_about_setup_reminder"
+        android:id="@+id/textViewAboutReminder"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:elegantTextHeight="false"
+        android:layout_below="@+id/textViewNameNewGroup" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/test"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textViewAboutReminder"
+        android:text="@string/setup_reminder"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveButtonGroup"
+        android:layout_alignParentBottom="true"
+        android:text="@string/save_group"/>
+
+</RelativeLayout>

@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="50dp"
+    tools:context="jeston.org.mobilegrammar.AllArticlesListViewActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutUserGroupName"
+        android:animateLayoutChanges="true"
+        android:layout_width="fill_parent"
+        android:layout_height="0sp"
+        android:gravity="center_vertical"
+        android:visibility="visible"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTextLessonName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:hint="@string/enter_name_of_new_group" />
+
+        <ImageButton
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:id="@+id/goToCreateReminder"
+            android:background="@android:color/transparent"
+            android:src="@drawable/save_lessons_group" />
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/listViewLessonsToSelect"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayoutUserGroupName"
+        android:focusable="false" />
+</RelativeLayout>

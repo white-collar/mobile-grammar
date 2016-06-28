@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мобільна граматика: English </string>
+    <string name="action_settings">Налаштування</string>
+    <string name="all_articles_menu_title">Усі уроки</string>
+    <string name="search_enter_article_name">Який урок знайти ?</string>
+    <string name="nothing_found">Схоже, що такого уроку немає. Спробуйте увести щось інше.</string>
+    <string name="lessons_by_chapters">Добірки уроків</string>
+    <string name="create_new_user_group_button">Створити власну добірку уроків</string>
+    <string name="not_yet_user_group">Пока що нема добірок, але можна створити нову.</string>
+    <string name="enter_name_of_new_group">Уведіть назву цієї добірки</string>
+    <string name="group1_title_menu">Добірка 1</string>
+    <string name="group2_title_menu">Добірка 2</string>
+    <string name="group3_title_menu">Добірка 3</string>
+    <string name="group4_title_menu">Добірка 4</string>
+    <string name="no_group_name_entered_by_user">Новій добірці уроків потрібно дати якусь назву ...</string>
+    <string name="text_about_setup_reminder">Для цієї добірки можна встановити нагадування, так що ви не забудете прочитати урок.</string>
+    <string name="setup_reminder">Встановити нагадування</string>
+    <string name="save_group">Зберегти добірку</string>
+    <string name="group_has_been_saved">Добірку успішно збережено. Тепер вона буде доступна в меню.</string>
+    <string name="your_groups">Ваші добірки</string>
+    <string name="new_group">Нова добірка</string>
+    <string name="edit_group">Редагувати добірку</string>
+    <string name="remove_group">Видалити добірку</string>
+    <string name="remove_all_groups">Видалити всі добірки</string>
+    <string name="message_about_removing">Це видалить створені вами добірки уроків. Точно продовжувати ?</string>
+    <string name="message_cancel">Ні</string>
+    <string name="message_ok">Так</string>
+    <string name="groups_have_been_removed">Добре, ваші добірки було видалено.</string>
+    <string name="remove_your_groups">Видалення добірок уроків</string>
+    <string name="removing_group">Видалення добірки</string>
+    <string name="this_will_remove_selected_group">Це видалить вибрану добірку. Точно продовжувати ?</string>
+    <string name="this_group_has_been_removed">Добірку біло видалено.</string>
+    <string name="removing_system_group_is_not_allowed">Зараз в списку добірок уроків тільки ті, які не можна видалити - вони відібрані редактором.</string>
+</resources>

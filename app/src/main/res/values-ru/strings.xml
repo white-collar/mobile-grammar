@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мобильная грамматика: English </string>
+    <string name="action_settings">Настройки </string>
+    <string name="all_articles_menu_title">Все уроки</string>
+    <string name="search_enter_article_name">Какой урок найти ?</string>
+    <string name="nothing_found">Похоже, что таких уроков нет. Попробуйте ввести что-нибудь другое.</string>
+    <string name="lessons_by_chapters">Подборки уроков</string>
+    <string name="create_new_user_group_button">Создать свою подборку уроков</string>
+    <string name="not_yet_user_group">Пока что нет подборок, но можно создать новую.</string>
+    <string name="enter_name_of_new_group">Введите имя этой подборки</string>
+    <string name="group1_title_menu">Подборка 1</string>
+    <string name="group2_title_menu">Подборка 2</string>
+    <string name="group3_title_menu">Подборка 3</string>
+    <string name="group4_title_menu">Подборка 4</string>
+    <string name="no_group_name_entered_by_user">Новой подборке уроков надо дать какое-то название ...</string>
+    <string name="text_about_setup_reminder">Для этой подборки можно установить напоминание, так что вы не забудуте прочитать урок.</string>
+    <string name="setup_reminder">Установить напоминание</string>
+    <string name="save_group">Сохранить подборку</string>
+    <string name="group_has_been_saved">Подборка успешно сохранена. Теперь она будет доступна в меню.</string>
+    <string name="your_groups">Ваши подборки</string>
+    <string name="new_group">Новая  подборка</string>
+    <string name="edit_group">Редактировать подборку</string>
+    <string name="remove_group">Удалить подборку </string>
+    <string name="remove_all_groups">Удалить все подборки</string>
+    <string name="message_about_removing">Это удалит созданные вами подборки уроков. Точно продолжать ?</string>
+    <string name="message_cancel">Отмена</string>
+    <string name="message_ok">Да</string>
+    <string name="groups_have_been_removed">ОК, ваши подборки были удалены.</string>
+    <string name="remove_your_groups">Удаление подборок уроков</string>
+    <string name="removing_group">Удаление подборки</string>
+    <string name="this_group_has_been_removed">Подборка была удалена.</string>
+    <string name="this_will_remove_selected_group">Это удалит выбранную подборку. Точно продолжать ?</string>
+    <string name="removing_system_group_is_not_allowed">Сейчас в списке подборок уроков только те, которые нельзя удалить - они группированы редактором.</string>
+</resources>
