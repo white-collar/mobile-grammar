@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextSearchField"
                 android:focusable="true"
+                android:visibility="invisible"
                 android:hint="@string/search_enter_article_name"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentStart="false"
@@ -41,9 +42,20 @@
         android:layout_height="match_parent"
         android:layout_weight="0.75" />
 
-    <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:backgroundTint= "@color/floatingButtonBackground"
+        android:src="@drawable/ic_arrow_upward_white_24dp"
+         />
+
+    <!--<android.support.design.widget.FloatingActionButton android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"-->
+        <!--android:backgroundTint= "@color/floatingButtonBackground"-->
+        <!--android:src="@drawable/ic_arrow_upward_white_24dp" />-->
 
 </android.support.design.widget.CoordinatorLayout>

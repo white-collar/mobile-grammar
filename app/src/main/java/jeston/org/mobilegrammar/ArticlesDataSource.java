@@ -199,4 +199,16 @@ public class ArticlesDataSource {
         int delCount = mDb.delete("groups_lesson", "_id = " + String.valueOf(groupId), null);
         return this.getAllGroupsName();
     }
+
+    public long updateGroup(String groupName, String listOfIdsLessons, long idGroupToBeUpdated) {
+            try {
+                ContentValues values = new ContentValues();
+                values.put("name", groupName);
+                values.put("ids", listOfIdsLessons);
+                long rowUpdated = mDb.update("groups_lesson", values, "_id = " + String.valueOf(idGroupToBeUpdated), null);
+                return rowUpdated;
+            } catch (SQLException mSQLException) {
+                throw mSQLException;
+            }
+    }
 }

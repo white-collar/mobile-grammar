@@ -83,10 +83,15 @@ public class AddReminderToGroupActivity extends AppCompatActivity
         stub.setLayoutResource(R.layout.activity_add_reminder_to_group);
         View inflated = stub.inflate();
 
+
         // group name from user's input
         groupName = this.getIntent().getStringExtra("created_group_name");
         // list of selected checkboxes's ids
         listOfIdsLessons = this.getIntent().getStringExtra("list_of_ids");
+        //status of operation: new record or update
+        StatusOfDatabaseOperation statusOperation = (StatusOfDatabaseOperation) this.
+                getIntent().
+                getSerializableExtra("status_operation");
 
         // show name of group lesson on form textview
         TextView textViewNameNewGroup = (TextView) findViewById(R.id.textViewNameNewGroup);
@@ -94,7 +99,17 @@ public class AddReminderToGroupActivity extends AppCompatActivity
 
         // save the group lesson to database
         Button saveGroupButton = (Button) findViewById(R.id.saveButtonGroup);
-        saveGroupButton.setOnClickListener(saveGroupListener);
+
+
+        if (statusOperation == StatusOfDatabaseOperation.NEW) {
+            saveGroupButton.setOnClickListener(saveGroupListener);
+        } else {
+            if (statusOperation == StatusOfDatabaseOperation.UPDATE) {
+                long idGroupToBeUpdated = this.getIntent().getLongExtra("id_group_to_be_updated", -1);
+                saveGroupButton.setOnClickListener(new UpdaterLessonGroupListener(idGroupToBeUpdated));
+            }
+        }
+
     }
 
     @Override
@@ -162,6 +177,31 @@ public class AddReminderToGroupActivity extends AppCompatActivity
     }
 
     // save the group lesson to database
+    private final View.OnClickListener updateGroupListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            try {
+                // save this group to database ....
+                ArticlesDataSource mDbHelper = new ArticlesDataSource(getApplicationContext());
+                mDbHelper.createDatabase();
+                mDbHelper.open();
+                long lastInsertedId = mDbHelper.saveGroup(groupName, listOfIdsLessons);
+                if (lastInsertedId != -1) {
+                    //Toast.makeText(getApplicationContext(), R.string.group_has_been_saved, Toast.LENGTH_SHORT).show();
+                    // ... and go to activity to show it
+                    Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
+                    intent.putExtra("group_id", lastInsertedId);
+                    startActivity(intent);
+                } else {
+                    // throw exception
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    // update the group lesson to database
     private final View.OnClickListener saveGroupListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -185,4 +225,39 @@ public class AddReminderToGroupActivity extends AppCompatActivity
             }
         }
     };
+
+    private final class UpdaterLessonGroupListener implements View.OnClickListener {
+
+        private long idGroupToBeUpdated;
+
+        public UpdaterLessonGroupListener(long idGroupToBeUpdated) {
+            this.idGroupToBeUpdated = idGroupToBeUpdated;
+        }
+
+        private long getIdGroupToBeUpdated() {
+            return this.idGroupToBeUpdated;
+        }
+
+        @Override
+        public void onClick(View view) {
+            try {
+                // save this group to database ....
+                ArticlesDataSource mDbHelper = new ArticlesDataSource(getApplicationContext());
+                mDbHelper.createDatabase();
+                mDbHelper.open();
+                long updatedId = mDbHelper.updateGroup(groupName, listOfIdsLessons, getIdGroupToBeUpdated());
+                if (updatedId != -1) {
+                    //Toast.makeText(getApplicationContext(), R.string.group_has_been_saved, Toast.LENGTH_SHORT).show();
+                    // ... and go to activity to show it
+                    Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
+                    intent.putExtra("group_id", getIdGroupToBeUpdated());
+                    startActivity(intent);
+                } else {
+                    // throw exception
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

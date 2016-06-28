@@ -4,9 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -32,8 +30,6 @@ import static jeston.org.mobilegrammar.R.string.message_ok;
 import static jeston.org.mobilegrammar.R.string.navigation_drawer_close;
 import static jeston.org.mobilegrammar.R.string.navigation_drawer_open;
 import static jeston.org.mobilegrammar.R.string.remove_your_groups;
-import static jeston.org.mobilegrammar.R.string.removing_group;
-import static jeston.org.mobilegrammar.R.string.this_will_remove_selected_group;
 
 public class UserGroupLessonsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,15 +48,6 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -77,6 +64,17 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         stub.setLayoutResource(R.layout.activity_user_group_lessons);
         View inflated = stub.inflate();
 
+        userGroupLessonsListView = (ListView) findViewById(R.id.listViewUserGroups);
+
+        com.melnykov.fab.FloatingActionButton fab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToListView(userGroupLessonsListView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go to top of listview
+                userGroupLessonsListView.setSelectionAfterHeaderView();
+            }
+        });
         mDbHelper = new ArticlesDataSource(getApplicationContext());
         mDbHelper.createDatabase();
         mDbHelper.open();
@@ -88,7 +86,6 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         LinearLayout layout = (LinearLayout) findViewById(R.id.lin_all);
         layout.setVisibility(View.INVISIBLE);
 
-        userGroupLessonsListView = (ListView) findViewById(R.id.listViewUserGroups);
         userGroupLessonsViewAdapter = new LessonsGroupCursorAdapter(this, groupsNameCursor, 0);
         userGroupLessonsListView.setAdapter(userGroupLessonsViewAdapter);
 
@@ -126,16 +123,20 @@ public class UserGroupLessonsActivity extends AppCompatActivity
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        // get data of row where context menu has been fired
+        int groupIdToRemove = info.position;
+        Cursor c = (Cursor) userGroupLessonsViewAdapter.getItem(groupIdToRemove);
+        Long id = c.getLong(c.getColumnIndexOrThrow("_id"));
+        String groupNameToEdit = c.getString(c.getColumnIndexOrThrow("title"));
         switch (item.getItemId()) {
             case R.id.context_menu_edit_group:
-                // add stuff here
+                Intent intent = new Intent(getApplicationContext(), FormCreateNewGroupActivity.class);
+                intent.putExtra("edit_group", id);
+                intent.putExtra("group_name", groupNameToEdit);
+                startActivity(intent);
                 return true;
             case R.id.context_menu_remove_group:
-                // get id of row in database to remove
-                int groupIdToRemove = info.position;
-                Cursor c = (Cursor)userGroupLessonsViewAdapter.getItem(groupIdToRemove);
-                Long id = c.getLong(c.getColumnIndexOrThrow("_id"));
-
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.drawer_icon)
                         .setTitle(R.string.removing_group)
@@ -191,7 +192,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity
                                 .setNegativeButton(message_cancel, null)
                                 .show();
                     } else {
-                        Toast.makeText(getApplicationContext(), groups_have_been_removed, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.removing_system_group_is_not_allowed, Toast.LENGTH_SHORT).show();
                     }
                 }
             }

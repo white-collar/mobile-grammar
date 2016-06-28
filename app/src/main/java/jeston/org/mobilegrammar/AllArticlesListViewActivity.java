@@ -3,9 +3,8 @@ package jeston.org.mobilegrammar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import com.melnykov.fab.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,7 +14,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
@@ -40,15 +38,6 @@ public class AllArticlesListViewActivity extends AppCompatActivity
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -56,29 +45,27 @@ public class AllArticlesListViewActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        Menu m = navigationView.getMenu();
-        SubMenu topChannelMenu = m.addSubMenu("Top Channels");
-        topChannelMenu.add("Foo");
-        topChannelMenu.add("Bar");
-        topChannelMenu.add("Baz");
-
-        MenuItem mi = m.getItem(m.size() - 1);
-        mi.setTitle(mi.getTitle());
-
         navigationView.setNavigationItemSelectedListener(this);
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.layout_all_articles_list_view);
         View inflated = stub.inflate();
 
+        articlesListViewItems = (ListView) findViewById(R.id.listViewArticles);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.attachToListView(articlesListViewItems);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go to top of listview
+                articlesListViewItems.setSelectionAfterHeaderView();
+            }
+        });
+
         mDbHelper = new ArticlesDataSource(getApplicationContext());
         mDbHelper.createDatabase();
         mDbHelper.open();
-
-        articlesListViewItems = (ListView) findViewById(R.id.listViewArticles);
-
-        TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
-        searchTextView.addTextChangedListener(textWatcher);
 
         // get data from intent to define what's group to show
         long groupId = this.getIntent().getLongExtra("group_id", -1);
@@ -97,6 +84,16 @@ public class AllArticlesListViewActivity extends AppCompatActivity
 
         // Attach cursor adapter to the ListView
         articlesListViewItems.setAdapter(articlesViewAdapter);
+
+        if (articlesListViewItems.getCount() > 10) {
+            TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
+            searchTextView.setVisibility(View.VISIBLE);
+            searchTextView.addTextChangedListener(textWatcher);
+        }
+        else {
+            TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
+            searchTextView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
