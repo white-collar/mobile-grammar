@@ -7,13 +7,15 @@
         android:id="@+id/checkboxAddLessonToGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleX="1.50"
-        android:scaleY="1.50"
-        android:paddingLeft="5sp"
+        android:scaleX="1.60"
+        android:scaleY="1.60"
+        android:paddingLeft="0dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:theme="@style/checkBoxStyle"
+        android:buttonTint="@color/floatingButtonBackground"
         android:layout_gravity="center_vertical" />
 
     <TextView

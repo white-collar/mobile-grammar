@@ -11,9 +11,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,7 +24,8 @@ import java.util.List;
 public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
 
     private LinearLayout topLayoutLessonGroup;
-    List<Integer> selectedItemsPositions;
+    HashMap<Integer, Integer> selectedItemsPositions;
+    private ViewGroup parentView;
 
     public LessonsWithCheckboxCursorAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, 0);
@@ -33,17 +36,23 @@ public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_checkbox_listview_item, parent, false);
+        parentView = parent;
         topLayoutLessonGroup = (LinearLayout) parent.getRootView().findViewById(R.id.linearLayoutUserGroupName);
-        selectedItemsPositions = new ArrayList<>();
+        //selectedItemsPositions = new ArrayList<>();
+        selectedItemsPositions = new HashMap<>();
         CheckBox box = (CheckBox) view.findViewById(R.id.checkboxAddLessonToGroup);
+        Log.w("new view",String.valueOf(selectedItemsPositions.size()));
         box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 int position = (int) compoundButton.getTag();
+                Cursor c = (Cursor)((ListView) parentView).getItemAtPosition(position);
+                int _position = c.getInt(c.getColumnIndexOrThrow("_id"));
                 if (b) {
+                    Log.w("position",String.valueOf(position));
                     //check whether its already selected or not
-                    if (!selectedItemsPositions.contains(position))
-                        selectedItemsPositions.add(position);
+                    if (!selectedItemsPositions.containsKey(position))
+                        selectedItemsPositions.put(position, _position);
                 } else {
                     //remove position if unchecked checked item
                     selectedItemsPositions.remove((Object) position);
@@ -66,10 +75,14 @@ public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
+        Log.w("bind view", String.valueOf(selectedItemsPositions.size()));
         CheckBox box = (CheckBox) view.findViewById(R.id.checkboxAddLessonToGroup);
         box.setTag(cursor.getPosition());
 
-        if (selectedItemsPositions.contains(cursor.getPosition()))
+        Log.w("cursor getPosition", String.valueOf(cursor.getPosition()));
+        Log.w("selectedItemsPositions", selectedItemsPositions.toString());
+
+        if (selectedItemsPositions.containsKey(cursor.getPosition()))
             box.setChecked(true);
         else
             box.setChecked(false);
@@ -82,13 +95,13 @@ public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
     }
 
     public String getListOfIndexesSelectedCheckboxes() {
-        ArrayList<Integer> correctedOnPlusOneItemsPositions = new ArrayList<>();
-        Log.w("list 1", android.text.TextUtils.join(",", selectedItemsPositions));
-        for (int i = 0; i < selectedItemsPositions.size(); i++) {
-            correctedOnPlusOneItemsPositions.add(selectedItemsPositions.get(i).intValue() + 1);
-        };
-        Log.w("list 2", android.text.TextUtils.join(",", correctedOnPlusOneItemsPositions));
-        return android.text.TextUtils.join(",", correctedOnPlusOneItemsPositions);
+//        ArrayList<Integer> correctedOnPlusOneItemsPositions = new ArrayList<>();
+//        for (int i = 0; i < selectedItemsPositions.size(); i++) {
+//            correctedOnPlusOneItemsPositions.add(selectedItemsPositions.get(i).intValue() + 1);
+//        };
+//        Log.w("updating", android.text.TextUtils.join(",", correctedOnPlusOneItemsPositions));
+       // return android.text.TextUtils.join(",", correctedOnPlusOneItemsPositions);
+        return android.text.TextUtils.join(",", selectedItemsPositions.values());
     }
 
 }

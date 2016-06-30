@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Мобильная грамматика: English </string>
-    <string name="action_settings">Настройки </string>
+    <string name="action_settings">Обратная связь</string>
     <string name="all_articles_menu_title">Все уроки</string>
     <string name="search_enter_article_name">Какой урок найти ?</string>
     <string name="nothing_found">Похоже, что таких уроков нет. Попробуйте ввести что-нибудь другое.</string>
-    <string name="lessons_by_chapters">Подборки уроков</string>
+    <string name="lessons_by_chapters">Подборки</string>
     <string name="create_new_user_group_button">Создать свою подборку уроков</string>
-    <string name="not_yet_user_group">Пока что нет подборок, но можно создать новую.</string>
+    <string name="user_group_has_not_been_found">Похоже,что такой подборки нет.</string>
     <string name="enter_name_of_new_group">Введите имя этой подборки</string>
     <string name="group1_title_menu">Подборка 1</string>
     <string name="group2_title_menu">Подборка 2</string>
@@ -32,4 +32,6 @@
     <string name="this_group_has_been_removed">Подборка была удалена.</string>
     <string name="this_will_remove_selected_group">Это удалит выбранную подборку. Точно продолжать ?</string>
     <string name="removing_system_group_is_not_allowed">Сейчас в списке подборок уроков только те, которые нельзя удалить - они группированы редактором.</string>
+    <string name="see_groups">Посмотреть</string>
+    <string name="there_are_not_any_group">Пока что тут не ни одной подборки. Но вы можете создать новую, кликнув по кнопке на Панели инструментов.</string>
 </resources>

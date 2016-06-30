@@ -3,10 +3,8 @@ package jeston.org.mobilegrammar;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,8 +17,7 @@ import android.widget.TextView;
 /**
  * This class is form to add reminder about group and save group to database
  */
-public class AddReminderToGroupActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class AddReminderToGroupActivity extends AppCompatActivity {
 
     // comes from intent from previous form
     private String groupName;
@@ -67,22 +64,12 @@ public class AddReminderToGroupActivity extends AppCompatActivity
 //            }
 //        });
         //------------------------------
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        initToolbarWithBackButton();
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_add_reminder_to_group);
         View inflated = stub.inflate();
-
 
         // group name from user's input
         groupName = this.getIntent().getStringExtra("created_group_name");
@@ -100,7 +87,6 @@ public class AddReminderToGroupActivity extends AppCompatActivity
         // save the group lesson to database
         Button saveGroupButton = (Button) findViewById(R.id.saveButtonGroup);
 
-
         if (statusOperation == StatusOfDatabaseOperation.NEW) {
             saveGroupButton.setOnClickListener(saveGroupListener);
         } else {
@@ -109,7 +95,21 @@ public class AddReminderToGroupActivity extends AppCompatActivity
                 saveGroupButton.setOnClickListener(new UpdaterLessonGroupListener(idGroupToBeUpdated));
             }
         }
+    }
 
+    protected void initToolbarWithBackButton() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                return;
+            }
+        });
     }
 
     @Override
@@ -144,62 +144,30 @@ public class AddReminderToGroupActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.menu_all_articles) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.mainGroup.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group1) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group1.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group2) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group2.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group3) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group3.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group4) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group4.getValue());
-            startActivity(intent);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
     // save the group lesson to database
-    private final View.OnClickListener updateGroupListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            try {
-                // save this group to database ....
-                ArticlesDataSource mDbHelper = new ArticlesDataSource(getApplicationContext());
-                mDbHelper.createDatabase();
-                mDbHelper.open();
-                long lastInsertedId = mDbHelper.saveGroup(groupName, listOfIdsLessons);
-                if (lastInsertedId != -1) {
-                    //Toast.makeText(getApplicationContext(), R.string.group_has_been_saved, Toast.LENGTH_SHORT).show();
-                    // ... and go to activity to show it
-                    Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
-                    intent.putExtra("group_id", lastInsertedId);
-                    startActivity(intent);
-                } else {
-                    // throw exception
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    };
+//    private final View.OnClickListener updateGroupListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//            try {
+//                // save this group to database ....
+//                ArticlesDataSource mDbHelper = new ArticlesDataSource(getApplicationContext());
+//                mDbHelper.createDatabase();
+//                mDbHelper.open();
+//                long lastInsertedId = mDbHelper.saveGroup(groupName, listOfIdsLessons);
+//                if (lastInsertedId != -1) {
+//                    //Toast.makeText(getApplicationContext(), R.string.group_has_been_saved, Toast.LENGTH_SHORT).show();
+//                    // ... and go to activity to show it
+//                    Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
+//                    intent.putExtra("group_id", lastInsertedId);
+//                    startActivity(intent);
+//                } else {
+//                    // throw exception
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    };
 
     // update the group lesson to database
     private final View.OnClickListener saveGroupListener = new View.OnClickListener() {
@@ -216,6 +184,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity
                     // ... and go to activity to show it
                     Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
                     intent.putExtra("group_id", lastInsertedId);
+                    intent.putExtra("status_what_show", ActivityArticlesStatusToShow.SHOW_ALL_GROUPS);
                     startActivity(intent);
                 } else {
                     // throw exception
@@ -241,7 +210,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity
         @Override
         public void onClick(View view) {
             try {
-                // save this group to database ....
+                // update this group to database ....
                 ArticlesDataSource mDbHelper = new ArticlesDataSource(getApplicationContext());
                 mDbHelper.createDatabase();
                 mDbHelper.open();
@@ -251,6 +220,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity
                     // ... and go to activity to show it
                     Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
                     intent.putExtra("group_id", getIdGroupToBeUpdated());
+                    intent.putExtra("status_what_show", ActivityArticlesStatusToShow.SHOW_ALL_GROUPS);
                     startActivity(intent);
                 } else {
                     // throw exception

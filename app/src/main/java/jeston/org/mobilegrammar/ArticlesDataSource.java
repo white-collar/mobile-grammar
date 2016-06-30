@@ -19,6 +19,8 @@ public class ArticlesDataSource {
     private SQLiteDatabase mDb;
     // instance of database helper
     private ArticlesDBHelper mDbHelper;
+    // first 4 group are system
+    private final int SYSTEM_ID_GROUP = 4;
 
 
     public ArticlesDataSource(Context context) {
@@ -100,6 +102,22 @@ public class ArticlesDataSource {
         }
     }
 
+    public Cursor findGroups(String groupName) {
+        try {
+            String sql = "select  _id as _id, name as title, ids as ids from groups_lesson \n" +
+                    "where title like '%" + groupName + "%' order by _id ";
+
+            Cursor mCur = mDb.rawQuery(sql, null);
+
+            if (mCur != null) {
+                mCur.moveToNext();
+            }
+            return mCur;
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+    }
+
     /**
      * Get all articles which are in created group
      *
@@ -163,7 +181,7 @@ public class ArticlesDataSource {
      * @return Cursor
      */
     public Cursor getAllGroupsName() {
-        String sql = "select  _id as _id, name as title, ids as ids from groups_lesson";
+        String sql = "select  _id as _id, name as title, ids as ids from groups_lesson where _id > " + String.valueOf(SYSTEM_ID_GROUP);
         Cursor mCur = mDb.rawQuery(sql, null);
         try {
             if (mCur != null) {
@@ -184,7 +202,6 @@ public class ArticlesDataSource {
      */
     public Cursor removeAllGroups() {
         // remove all groups without system groups
-        final int SYSTEM_ID_GROUP = 4;
         //  TODO: 27.06.2016 use delCount
         int delCount = mDb.delete("groups_lesson", "_id > " + String.valueOf(SYSTEM_ID_GROUP), null);
         return this.getAllGroupsName();

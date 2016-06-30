@@ -3,7 +3,6 @@ package jeston.org.mobilegrammar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import com.melnykov.fab.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,32 +19,22 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
+
 public class AllArticlesListViewActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ArticlesDataSource mDbHelper;
     private ListView articlesListViewItems;
-    ArticleCursorAdapter articlesViewAdapter;
+    private ArticleCursorAdapter articlesViewAdapter;
     private Cursor articlesCursor;
+
+    private ActivityArticlesStatusToShow statusToShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.layout_all_articles_list_view);
@@ -53,26 +42,19 @@ public class AllArticlesListViewActivity extends AppCompatActivity
 
         articlesListViewItems = (ListView) findViewById(R.id.listViewArticles);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToListView(articlesListViewItems);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // go to top of listview
-                articlesListViewItems.setSelectionAfterHeaderView();
-            }
-        });
-
         mDbHelper = new ArticlesDataSource(getApplicationContext());
         mDbHelper.createDatabase();
         mDbHelper.open();
 
         // get data from intent to define what's group to show
         long groupId = this.getIntent().getLongExtra("group_id", -1);
+        statusToShow = (ActivityArticlesStatusToShow) this.getIntent().getSerializableExtra("status_what_show");
 
-        if (groupId == 0) {
+        if (groupId == 0 || groupId == -1) {
+            initDrawer();
             articlesCursor = mDbHelper.getAllArticles();
         } else {
+            initToolbarWithBackButton();
             articlesCursor = mDbHelper.getArticlesByGroup(groupId);
         }
 
@@ -85,15 +67,57 @@ public class AllArticlesListViewActivity extends AppCompatActivity
         // Attach cursor adapter to the ListView
         articlesListViewItems.setAdapter(articlesViewAdapter);
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         if (articlesListViewItems.getCount() > 10) {
             TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
             searchTextView.setVisibility(View.VISIBLE);
             searchTextView.addTextChangedListener(textWatcher);
+
+            fab.attachToListView(articlesListViewItems);
+            fab.setVisibility(View.VISIBLE);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // go to top of listview
+                    articlesListViewItems.setSelectionAfterHeaderView();
+                }
+            });
         }
         else {
             TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
             searchTextView.setVisibility(View.INVISIBLE);
+            fab.setVisibility(View.INVISIBLE);
         }
+    }
+
+    protected void initDrawer() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    protected void initToolbarWithBackButton() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                return;
+            }
+        });
     }
 
     @Override
@@ -102,12 +126,14 @@ public class AllArticlesListViewActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            // ифсл ещ фдд фкешсдуі
+            // back to all groups
             super.onBackPressed();
-            // back to all articles
-//            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-//            intent.putExtra("group_id", GroupId.mainGroup.getValue());
-//            startActivity(intent);
+//            if (statusToShow != null) {
+//                articlesCursor = mDbHelper.getAllGroupsName();
+//                articlesViewAdapter.changeCursor(articlesCursor);
+//            } else {
+//                super.onBackPressed();
+//            }
         }
     }
 
@@ -127,6 +153,8 @@ public class AllArticlesListViewActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -157,6 +185,9 @@ public class AllArticlesListViewActivity extends AppCompatActivity
         } else if (id == R.id.menu_group4) {
             Intent intent = new Intent(this, AllArticlesListViewActivity.class);
             intent.putExtra("group_id", GroupId.group4.getValue());
+            startActivity(intent);
+        } else if (id == R.id.menu_user_groups) {
+            Intent intent = new Intent(this, UserGroupLessonsActivity.class);
             startActivity(intent);
         }
 

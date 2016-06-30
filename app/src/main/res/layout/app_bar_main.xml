@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
@@ -44,12 +45,14 @@
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:backgroundTint= "@color/floatingButtonBackground"
         android:src="@drawable/ic_arrow_upward_white_24dp"
+        fab:fab_colorNormal="@color/floatingButtonBackground"
+        fab:fab_colorPressed="@color/floatingButtonBackground"
          />
 
     <!--<android.support.design.widget.FloatingActionButton android:id="@+id/fab"-->

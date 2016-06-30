@@ -33,7 +33,6 @@ public class LessonsGroupCursorAdapter extends CursorAdapter {
         TextView textViewArticleTitle = (TextView) view.findViewById(R.id.itemLessonGroupName);
         // Extract properties from cursor
         String articleTitle = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-        view.setTag(R.id.itemLessonGroupName,cursor.getString(cursor.getColumnIndexOrThrow("_id")));
         textViewArticleTitle.setText(articleTitle);
     }
 }

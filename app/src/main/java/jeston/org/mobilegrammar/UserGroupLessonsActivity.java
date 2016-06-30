@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,16 +20,14 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static jeston.org.mobilegrammar.R.string.groups_have_been_removed;
 import static jeston.org.mobilegrammar.R.string.message_about_removing;
 import static jeston.org.mobilegrammar.R.string.message_cancel;
 import static jeston.org.mobilegrammar.R.string.message_ok;
-import static jeston.org.mobilegrammar.R.string.navigation_drawer_close;
-import static jeston.org.mobilegrammar.R.string.navigation_drawer_open;
 import static jeston.org.mobilegrammar.R.string.remove_your_groups;
 
 public class UserGroupLessonsActivity extends AppCompatActivity
@@ -42,23 +41,25 @@ public class UserGroupLessonsActivity extends AppCompatActivity
      custom groups
       */
     private static final int ID_OF_BORDER_OF_SYSTEM_GROUP = 4;
+    private static final int LIMIT_TO_SHOW_SEARCH_FIELD = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initToolbarWithBackButton();
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, navigation_drawer_open, navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, navigation_drawer_open, navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
+//
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_user_group_lessons);
@@ -81,22 +82,60 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         // get all group's names to select their in list view
         Cursor groupsNameCursor = mDbHelper.getAllGroupsName();
 
-        // hide block with title about empty list view
-        // TODO: 27.06.2016 may be it's redudant becouse of user can't remove system groups - so listview can't be empty
-        LinearLayout layout = (LinearLayout) findViewById(R.id.lin_all);
-        layout.setVisibility(View.INVISIBLE);
-
         userGroupLessonsViewAdapter = new LessonsGroupCursorAdapter(this, groupsNameCursor, 0);
         userGroupLessonsListView.setAdapter(userGroupLessonsViewAdapter);
 
-        // go to see the list of lessons of clicked listview's item
-        userGroupLessonsListView.setOnItemClickListener(listViewItemListener);
+        if (userGroupLessonsListView.getCount() == 0) {
+            TextView emptyListUserGroupTextView = (TextView) findViewById(R.id.emptyListUserGroupTextView);
+            emptyListUserGroupTextView.setVisibility(View.VISIBLE);
+        } else if (userGroupLessonsListView.getCount() > 0) {
 
-        // long click to select group to remove it
-        userGroupLessonsListView.setLongClickable(true);
+            TextView emptyListUserGroupTextView = (TextView) findViewById(R.id.emptyListUserGroupTextView);
+            emptyListUserGroupTextView.setVisibility(View.INVISIBLE);
 
-        registerForContextMenu(userGroupLessonsListView);
+            if (userGroupLessonsListView.getCount() > LIMIT_TO_SHOW_SEARCH_FIELD) {
+                TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
+                searchTextView.setVisibility(View.VISIBLE);
+                searchTextView.addTextChangedListener(textWatcher);
 
+                fab.attachToListView(userGroupLessonsListView);
+                fab.setVisibility(View.VISIBLE);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // go to top of listview
+                        userGroupLessonsListView.setSelectionAfterHeaderView();
+                    }
+                });
+            } else {
+                TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
+                searchTextView.setVisibility(View.INVISIBLE);
+                fab.setVisibility(View.INVISIBLE);
+            }
+            // go to see the list of lessons of clicked listview's item
+            userGroupLessonsListView.setOnItemClickListener(listViewItemListener);
+
+            // long click to select group to remove it
+            userGroupLessonsListView.setLongClickable(true);
+
+            registerForContextMenu(userGroupLessonsListView);
+        }
+
+    }
+
+    protected void initToolbarWithBackButton() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                return;
+            }
+        });
     }
 
     /**
@@ -110,13 +149,8 @@ public class UserGroupLessonsActivity extends AppCompatActivity
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId() == R.id.listViewUserGroups) {
-            // Get the info on which item was selected
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-
-            if (info.position >= ID_OF_BORDER_OF_SYSTEM_GROUP) {
                 MenuInflater inflater = getMenuInflater();
                 inflater.inflate(R.menu.context_menu_lisview_groups_operation, menu);
-            }
         }
     }
 
@@ -279,4 +313,31 @@ public class UserGroupLessonsActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), R.string.this_group_has_been_removed, Toast.LENGTH_SHORT).show();
         }
     }
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            TextView emptyTextViewText = (TextView) findViewById(R.id.emptyListUserGroupTextView);
+            Cursor articlesCursor = mDbHelper.findGroups(charSequence.toString());
+            if (articlesCursor.getCount() == 0) {
+                userGroupLessonsListView.setVisibility(View.GONE);
+                emptyTextViewText.setVisibility(View.VISIBLE);
+            } else {
+                // update cursor with new data - this updates the lis view
+                userGroupLessonsViewAdapter.changeCursor(articlesCursor);
+                userGroupLessonsListView.setVisibility(View.VISIBLE);
+                emptyTextViewText.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
 }

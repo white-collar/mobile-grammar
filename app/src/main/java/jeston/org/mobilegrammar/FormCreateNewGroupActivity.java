@@ -3,12 +3,8 @@ package jeston.org.mobilegrammar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,8 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class FormCreateNewGroupActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class FormCreateNewGroupActivity extends AppCompatActivity {
 
     private ArticlesDataSource mDbHelper;
     private ListView lessonsListViewItems;
@@ -38,17 +33,7 @@ public class FormCreateNewGroupActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        initToolbarWithBackButton();
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_form_create_new_group);
@@ -96,6 +81,21 @@ public class FormCreateNewGroupActivity extends AppCompatActivity
         }
     }
 
+    protected void initToolbarWithBackButton() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                return;
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,37 +128,6 @@ public class FormCreateNewGroupActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.menu_all_articles) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.mainGroup.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group1) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group1.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group2) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group2.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group3) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group3.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group4) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group4.getValue());
-            startActivity(intent);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     /**
      * Add ids of selected checkboxes to array list to save their into database
