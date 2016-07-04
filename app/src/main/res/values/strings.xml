@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
-    <string name="feedback_string">Feedback</string>
+    <string name="about_program_string">About program</string>
 
     <string name="all_articles_menu_title">All lessons</string>
     <string name="search_enter_article_name">Enter article name ...</string>
@@ -58,16 +58,15 @@
     <string name="see_groups">See groups</string>
 
 
-    <string-array name="theme_feedback">
-            <item>Propose</item>
-            <item>Bug</item>
-            <item>Complain</item>
-            <item>Common</item>
-    </string-array>
-
-    <string name="about_theme_feedback">Please, select the topic: it will be easier for us to answer</string>
+    <string name="about_theme_feedback">Please, select the topic: it will be easier for us to answer.</string>
     <string name="leave_email_if_would">if you want, you can leave your e mail.</string>
-    <string name="privacy_statement"><a href="http://google.com/">Privacy statement</a></string>
+    <string name="privacy_statement">Privacy statement</string>
     <string name="action_settings">Feedback</string>
 
+    <string name="message_feedback_not_empty">Sorry, to send feedback you have to enter something ...</string>
+    <string name="thanks_for_feedback">Thanks you for your feedback!</string>
+
+    <string name="propose_user_to_select_lessons">Check lessons which you want to add to the new group</string>
+
+    <string name="too_long_group_name">Sorry, it\'s too long group name. Please, keep within 50 characters</string>
 </resources>

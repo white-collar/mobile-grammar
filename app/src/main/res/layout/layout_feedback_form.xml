@@ -1,72 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="jeston.org.mobilegrammar.FeedbackActivity">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingTop="50dp"
+    tools:context="jeston.org.mobilegrammar.AboutProgramActivity">
 
-    <TextView
-        android:id="@+id/textViewAboutThemeFeedback"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
-        android:elegantTextHeight="false"
-        android:text="@string/about_theme_feedback"
-        android:textSize="15sp" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"></Spinner>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/leave_email_if_would"/>
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layout_marginTop="20dp"
-        android:id="@+id/privacyStatementTextView"
-        android:text="@string/privacy_statement"
-        android:linksClickable="true" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="email@domain.com"
-        android:inputType="textWebEmailAddress"/>
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|left"
-        android:inputType="textMultiLine"
-        android:lines="18"
-        android:maxLines="18"
-        android:minLines="9"
-        android:layout_alignParentBottom="true"
-        android:scrollbars="vertical" />
-
-    <Button
-        android:id="@+id/sendFeedbackButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Send feedback" />
-
+   <WebView
+       android:id="@+id/webViewAboutProgram"
+       android:layout_width="fill_parent"
+       android:layout_height="fill_parent">
+   </WebView>
 </LinearLayout>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Мобільна граматика: English </string>
+    <string name="app_name">Мобільна граматика: English</string>
     <string name="action_settings">Зворотній зв\'язок</string>
     <string name="all_articles_menu_title">Усі уроки</string>
     <string name="search_enter_article_name">Який урок знайти ?</string>
@@ -34,4 +34,12 @@
     <string name="removing_system_group_is_not_allowed">Зараз в списку добірок уроків тільки ті, які не можна видалити - вони відібрані редактором.</string>
     <string name="see_groups">Подивитися</string>
     <string name="there_are_not_any_group">Поки що тут немає жодної добірки. Але ві можете створити нову, клацнув на кнопці на Панелі інструментів.</string>
+    <string name="about_theme_feedback">Будь ласка, виберіть тему: так нам буде легше впоратися с відповідями.</string>
+    <string name="leave_email_if_would">Якщо бажаєте, можна залишити свій email - ми обов\'язково відповімо.</string>
+    <string name="message_feedback_not_empty">Тут потрібно буде щось увести. Ще раз дякуєм.</string>
+    <string name="thanks_for_feedback">Дякуємо за відгук!</string>
+    <string name="privacy_statement">Угода про конфіденційність</string>
+    <string name="about_program_string">Про програму</string>
+    <string name="propose_user_to_select_lessons">Позначте прапорцями ті уроки, які треба додати в нову добірку.</string>
+    <string name="too_long_group_name">Вибачте, це занадто довге ім\'я для групи. Будь ласка, укладетеся в 50 символів.</string>
 </resources>

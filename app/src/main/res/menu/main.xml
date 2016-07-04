@@ -2,6 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/action_settings" android:title="@string/feedback_string"
+    <item
+        android:id="@+id/action_show_search_field"
+        android:icon="@drawable/ic_action_action_find_in_page"
+        android:title="@string/search_enter_article_name"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/about_program_menu_item" android:title="@string/about_program_string"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

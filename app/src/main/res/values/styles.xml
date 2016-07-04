@@ -16,6 +16,10 @@
         <item name="colorAccent">@color/floatingButtonBackground</item>
         <item name="android:textColorSecondary">@color/floatingButtonBackground</item>
     </style>
+    <style name="editTextStyle" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">@color/floatingButtonBackground</item>
+        <item name="android:textColor">#000000</item>
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

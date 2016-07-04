@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -30,17 +29,15 @@ import static jeston.org.mobilegrammar.R.string.message_cancel;
 import static jeston.org.mobilegrammar.R.string.message_ok;
 import static jeston.org.mobilegrammar.R.string.remove_your_groups;
 
-public class UserGroupLessonsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class UserGroupLessonsActivity extends AppCompatActivity {
 
+    // instance of object with database functions
     private ArticlesDataSource mDbHelper;
+    // listview instance
     private ListView userGroupLessonsListView;
+    // instance of adapter with checkbox and textview
     private CursorAdapter userGroupLessonsViewAdapter;
-    /*
-     this defines max id of system group. It used in OnCreateContextMenu to show it only on user
-     custom groups
-      */
-    private static final int ID_OF_BORDER_OF_SYSTEM_GROUP = 4;
+    // constant to define what maximum groups must be in listview to turn of search field
     private static final int LIMIT_TO_SHOW_SEARCH_FIELD = 10;
 
     @Override
@@ -49,17 +46,6 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         initToolbarWithBackButton();
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, navigation_drawer_open, navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_user_group_lessons);
@@ -85,19 +71,24 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         userGroupLessonsViewAdapter = new LessonsGroupCursorAdapter(this, groupsNameCursor, 0);
         userGroupLessonsListView.setAdapter(userGroupLessonsViewAdapter);
 
+        // if listview with groups is empty ....
         if (userGroupLessonsListView.getCount() == 0) {
+            // ... show textview with text about this
             TextView emptyListUserGroupTextView = (TextView) findViewById(R.id.emptyListUserGroupTextView);
             emptyListUserGroupTextView.setVisibility(View.VISIBLE);
         } else if (userGroupLessonsListView.getCount() > 0) {
-
+            // ... otherwise hide this textview (just in case)
             TextView emptyListUserGroupTextView = (TextView) findViewById(R.id.emptyListUserGroupTextView);
             emptyListUserGroupTextView.setVisibility(View.INVISIBLE);
 
+            // if row's count in listview greater than constant ...
             if (userGroupLessonsListView.getCount() > LIMIT_TO_SHOW_SEARCH_FIELD) {
+                // ... so there is sense to show search field
                 TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
                 searchTextView.setVisibility(View.VISIBLE);
                 searchTextView.addTextChangedListener(textWatcher);
 
+                // init fab and set event to scroll to top of listview
                 fab.attachToListView(userGroupLessonsListView);
                 fab.setVisibility(View.VISIBLE);
                 fab.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +99,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity
                     }
                 });
             } else {
+                //... if row's count is not enough, then hide search field
                 TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
                 searchTextView.setVisibility(View.INVISIBLE);
                 fab.setVisibility(View.INVISIBLE);
@@ -123,7 +115,10 @@ public class UserGroupLessonsActivity extends AppCompatActivity
 
     }
 
-    protected void initToolbarWithBackButton() {
+    /**
+     * Just code of toolbar init, which is replaced to function to be brief
+     */
+    private void initToolbarWithBackButton() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -133,7 +128,6 @@ public class UserGroupLessonsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 finish();
-                return;
             }
         });
     }
@@ -154,23 +148,36 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Provides two actions: edit and hide a group
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
         // get data of row where context menu has been fired
         int groupIdToRemove = info.position;
+        /**
+         * When we click on listview, we get variable "position", which counts since 0, having in mind just simple order of row.
+         * In order to edit group we must to define his id from database
+         */
         Cursor c = (Cursor) userGroupLessonsViewAdapter.getItem(groupIdToRemove);
         Long id = c.getLong(c.getColumnIndexOrThrow("_id"));
+        // We extract name of group if user would want to edit name
         String groupNameToEdit = c.getString(c.getColumnIndexOrThrow("title"));
+
         switch (item.getItemId()) {
             case R.id.context_menu_edit_group:
+                // edit group
                 Intent intent = new Intent(getApplicationContext(), FormCreateNewGroupActivity.class);
                 intent.putExtra("edit_group", id);
                 intent.putExtra("group_name", groupNameToEdit);
                 startActivity(intent);
                 return true;
             case R.id.context_menu_remove_group:
+                // remove group. User must confirm the removing
                 new AlertDialog.Builder(this)
                         .setIcon(R.drawable.drawer_icon)
                         .setTitle(R.string.removing_group)
@@ -201,6 +208,12 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Provides the functions of the action bar
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -209,15 +222,16 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.button_show_search_field) {
             return true;
         } else {
             if (id == R.id.action_add_group) {
+                // create new group - just start activity to do this
                 Intent intent = new Intent(getApplicationContext(), FormCreateNewGroupActivity.class);
                 startActivity(intent);
             } else {
+                // remove all groups. User must confirm this
                 if (id == R.id.action_remove_all_groups) {
-                    if (userGroupLessonsViewAdapter.getCount() > 4) {
                         new AlertDialog.Builder(this)
                                 .setIcon(R.drawable.drawer_icon)
                                 .setTitle(remove_your_groups)
@@ -225,9 +239,6 @@ public class UserGroupLessonsActivity extends AppCompatActivity
                                 .setPositiveButton(message_ok, alertRemoveAllGroupsListener)
                                 .setNegativeButton(message_cancel, null)
                                 .show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), R.string.removing_system_group_is_not_allowed, Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
         }
@@ -235,38 +246,12 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.menu_all_articles) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.mainGroup.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group1) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group1.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group2) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group2.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group3) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group3.getValue());
-            startActivity(intent);
-        } else if (id == R.id.menu_group4) {
-            Intent intent = new Intent(this, AllArticlesListViewActivity.class);
-            intent.putExtra("group_id", GroupId.group4.getValue());
-            startActivity(intent);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    protected void onDestroy() {
+        super.onDestroy();
+        mDbHelper.close();
     }
-
 
     /**
      * Click listitem handler - go to see the list of lessons of clicked listview's item
@@ -276,12 +261,15 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Cursor c = (Cursor) parent.getItemAtPosition(position);
             String groupId = c.getString(c.getColumnIndexOrThrow("_id"));
+            String groupName = c.getString(c.getColumnIndexOrThrow("title"));
             Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
             intent.putExtra("group_id", Long.parseLong(groupId));
+            intent.putExtra("group_name", groupName);
             startActivity(intent);
         }
     };
 
+    // remove all groups listener
     private final DialogInterface.OnClickListener alertRemoveAllGroupsListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
@@ -293,6 +281,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity
     };
 
 
+    // innder class to remove group by her id. It needs new class becouse of we need to pass the variable - id
     private class AlertRemoveGroupById implements DialogInterface.OnClickListener {
 
         private long groupId;
@@ -314,10 +303,11 @@ public class UserGroupLessonsActivity extends AppCompatActivity
         }
     }
 
-    TextWatcher textWatcher = new TextWatcher() {
+    // it uses to listen the user's input and make SQL with LIKE to database
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            // stub
         }
 
         @Override
@@ -337,7 +327,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity
 
         @Override
         public void afterTextChanged(Editable editable) {
-
+            // stub
         }
     };
 }

@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".AllArticlesListViewActivity"
-            android:label="@string/app_name"
+            android:label="@string/all_articles_menu_title"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,13 +22,13 @@
         <!-- </activity> -->
         <activity android:name=".WebViewActivity" >
         </activity>
-        <activity android:name=".UserGroupLessonsActivity" >
+        <activity android:name=".UserGroupLessonsActivity" android:label="@string/your_groups">
         </activity>
-        <activity android:name=".FormCreateNewGroupActivity" >
+        <activity android:name=".FormCreateNewGroupActivity" android:label="@string/all_articles_menu_title">
         </activity>
-        <activity android:name=".AddReminderToGroupActivity" >
+        <activity android:name=".AddReminderToGroupActivity" android:label="@string/new_group">
         </activity>
-        <activity android:name=".FeedbackActivity" >
+        <activity android:name=".AboutProgramActivity" android:label="@string/about_program_string">
         </activity>
     </application>
 

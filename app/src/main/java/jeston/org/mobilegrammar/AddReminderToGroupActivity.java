@@ -7,8 +7,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
@@ -21,7 +19,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
 
     // comes from intent from previous form
     private String groupName;
-    // comes from intenr from previous form
+    // comes from intent from previous form
     private String listOfIdsLessons;
 
     @Override
@@ -97,7 +95,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
         }
     }
 
-    protected void initToolbarWithBackButton() {
+    private void initToolbarWithBackButton() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -107,7 +105,6 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                return;
             }
         });
     }
@@ -122,52 +119,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    // save the group lesson to database
-//    private final View.OnClickListener updateGroupListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//            try {
-//                // save this group to database ....
-//                ArticlesDataSource mDbHelper = new ArticlesDataSource(getApplicationContext());
-//                mDbHelper.createDatabase();
-//                mDbHelper.open();
-//                long lastInsertedId = mDbHelper.saveGroup(groupName, listOfIdsLessons);
-//                if (lastInsertedId != -1) {
-//                    //Toast.makeText(getApplicationContext(), R.string.group_has_been_saved, Toast.LENGTH_SHORT).show();
-//                    // ... and go to activity to show it
-//                    Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
-//                    intent.putExtra("group_id", lastInsertedId);
-//                    startActivity(intent);
-//                } else {
-//                    // throw exception
-//                }
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    };
 
     // update the group lesson to database
     private final View.OnClickListener saveGroupListener = new View.OnClickListener() {
@@ -184,6 +136,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
                     // ... and go to activity to show it
                     Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
                     intent.putExtra("group_id", lastInsertedId);
+                    intent.putExtra("group_name", groupName);
                     intent.putExtra("status_what_show", ActivityArticlesStatusToShow.SHOW_ALL_GROUPS);
                     startActivity(intent);
                 } else {

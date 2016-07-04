@@ -86,10 +86,25 @@ public class ArticlesDataSource {
         }
     }
 
-    public Cursor findArticles(String articleName) {
+    /**
+     * We have to options to find articles:
+     * 1. Find all articles - in this case we have ids as null
+     * 2. Find articles inside group - in this case we must to pass ids of group. In activity we have getIdsOfGroup() to do this.
+     *
+     * @param articleName
+     * @param ids
+     * @return
+     */
+    public Cursor findArticles(String articleName, String ids) {
         try {
-            String sql = "select  _id as _id, unit_number as title, html as html from articles \n" +
-                    "where unit_number like '%" + articleName + "%' order by _id ";
+            String sql;
+            if (ids == null) {
+                sql = "select  _id as _id, unit_number as title, html as html from articles \n" +
+                        "where unit_number like '%" + articleName + "%' order by _id ";
+            } else {
+                sql = "select  _id as _id, unit_number as title, html as html from articles \n" +
+                        "where unit_number like '%" + articleName + "%' and _id in (" + ids + ") order by _id ";
+            }
 
             Cursor mCur = mDb.rawQuery(sql, null);
 
@@ -100,6 +115,20 @@ public class ArticlesDataSource {
         } catch (SQLException mSQLException) {
             throw mSQLException;
         }
+    }
+
+    public String getIdsOfGroup(long groupId) {
+        // get all ids of lessons of selected group
+        String sql = "select ids as _id from groups_lesson where _id = " + String.valueOf(groupId);
+
+        Cursor mCur = mDb.rawQuery(sql, null);
+
+        if (mCur != null) {
+            mCur.moveToNext();
+        }
+        // ids of lessons to select
+        String listForSQlExpression = mCur.getString(mCur.getColumnIndexOrThrow("_id"));
+        return listForSQlExpression;
     }
 
     public Cursor findGroups(String groupName) {
@@ -128,20 +157,15 @@ public class ArticlesDataSource {
         try {
 
             // get all ids of lessons of selected group
-            String sql = "select ids as _id from groups_lesson where _id = " + String.valueOf(groupId);
 
-            Cursor mCur = mDb.rawQuery(sql, null);
-
-            if (mCur != null) {
-                mCur.moveToNext();
-            }
             // ids of lessons to select
-            String listForSQlExpression = mCur.getString(mCur.getColumnIndexOrThrow("_id"));
+            String listForSQlExpression = getIdsOfGroup(groupId);
+            listForSQlExpression = listForSQlExpression.replaceAll("(\\n)", "");
 
             String sql1 = "select  _id as _id, unit_number as title, html as html from articles \n" +
                     "where _id in (" + listForSQlExpression + ") order by _id";
 
-            mCur = mDb.rawQuery(sql1, null);
+            Cursor mCur = mDb.rawQuery(sql1, null);
 
             if (mCur != null) {
                 mCur.moveToNext();

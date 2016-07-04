@@ -1,7 +1,6 @@
 package jeston.org.mobilegrammar;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,17 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Jeston on 21.06.2016.
  */
 public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
 
+    // global link to linear layout - it uses newView() and bindView()
     private LinearLayout topLayoutLessonGroup;
+    // hashmap to store id of checkbox in listview and id of this record in database
     HashMap<Integer, Integer> selectedItemsPositions;
+    // instance of listview in checkbox listener
     private ViewGroup parentView;
 
     public LessonsWithCheckboxCursorAdapter(Context context, Cursor cursor, int flags) {
@@ -38,7 +38,6 @@ public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_checkbox_listview_item, parent, false);
         parentView = parent;
         topLayoutLessonGroup = (LinearLayout) parent.getRootView().findViewById(R.id.linearLayoutUserGroupName);
-        //selectedItemsPositions = new ArrayList<>();
         selectedItemsPositions = new HashMap<>();
         CheckBox box = (CheckBox) view.findViewById(R.id.checkboxAddLessonToGroup);
         Log.w("new view",String.valueOf(selectedItemsPositions.size()));
@@ -46,15 +45,16 @@ public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 int position = (int) compoundButton.getTag();
+                // define id of selected row in database
                 Cursor c = (Cursor)((ListView) parentView).getItemAtPosition(position);
                 int _position = c.getInt(c.getColumnIndexOrThrow("_id"));
                 if (b) {
                     Log.w("position",String.valueOf(position));
-                    //check whether its already selected or not
+                    //if listview id are already stored
                     if (!selectedItemsPositions.containsKey(position))
                         selectedItemsPositions.put(position, _position);
                 } else {
-                    //remove position if unchecked checked item
+                    // if selected checkbox was unselected - so, remove his id from hashmap
                     selectedItemsPositions.remove((Object) position);
                 }
                 // manage the visibility of layout with edittext and button
@@ -81,10 +81,11 @@ public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
 
         Log.w("cursor getPosition", String.valueOf(cursor.getPosition()));
         Log.w("selectedItemsPositions", selectedItemsPositions.toString());
-
+        // if selected checkbox id are stored, so select checkbox
         if (selectedItemsPositions.containsKey(cursor.getPosition()))
             box.setChecked(true);
         else
+            // ... or unselect
             box.setChecked(false);
 
         //Find fields to populate in inflated template
@@ -95,12 +96,7 @@ public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
     }
 
     public String getListOfIndexesSelectedCheckboxes() {
-//        ArrayList<Integer> correctedOnPlusOneItemsPositions = new ArrayList<>();
-//        for (int i = 0; i < selectedItemsPositions.size(); i++) {
-//            correctedOnPlusOneItemsPositions.add(selectedItemsPositions.get(i).intValue() + 1);
-//        };
-//        Log.w("updating", android.text.TextUtils.join(",", correctedOnPlusOneItemsPositions));
-       // return android.text.TextUtils.join(",", correctedOnPlusOneItemsPositions);
+        // just the string with ids of selected rows, separated by comma
         return android.text.TextUtils.join(",", selectedItemsPositions.values());
     }
 
