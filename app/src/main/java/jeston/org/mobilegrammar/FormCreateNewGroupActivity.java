@@ -133,51 +133,7 @@ public class FormCreateNewGroupActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_show_search_field) {
-            // change layout params to show search text
-            EditText searchTextView = (EditText) findViewById(R.id.editTextSearchField);
-            // text listener to use entered characters in search
-            searchTextView.addTextChangedListener(textWatcher);
-            // input manager to start or hide keyboard
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            if (searchTextView.getLayout().getWidth() == 0) {
-                // show text for entering search field
-                searchTextView.setLayoutParams(new Toolbar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                // ... and set focus
-                searchTextView.requestFocus();
-                // show keaboard
-                imm.showSoftInput(searchTextView, InputMethodManager.SHOW_IMPLICIT);
-            } else {
-                if (searchTextView.getText().toString().length() > 0) return true;
-                // hide search field
-                searchTextView.setLayoutParams(new Toolbar.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
-                // hide keyboard
-                imm.hideSoftInputFromWindow(searchTextView.getWindowToken(), 0);
-            }
-            return true;
-        } else if (id == R.id.about_program_menu_item) {
-            Intent intent = new Intent(getApplicationContext(), AboutProgramActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     // it uses to listen the user's input and make SQL with LIKE to database
     private final TextWatcher textWatcher = new TextWatcher() {

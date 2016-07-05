@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Мобильная грамматика: English</string>
-    <string name="action_settings">Обратная связь</string>
     <string name="all_articles_menu_title">Все уроки</string>
     <string name="search_enter_article_name">Какой урок найти ?</string>
     <string name="nothing_found">Похоже, что таких уроков нет. Попробуйте ввести что-нибудь другое.</string>
@@ -13,11 +12,10 @@
     <string name="group2_title_menu">Подборка 2</string>
     <string name="group3_title_menu">Подборка 3</string>
     <string name="group4_title_menu">Подборка 4</string>
-    <string name="no_group_name_entered_by_user">Новой подборке уроков надо дать какое-то название ...</string>
+    <string name="no_group_name_entered_by_user">Новой подборке уроков надо дать какое-то название …</string>
     <string name="text_about_setup_reminder">Для этой подборки можно установить напоминание, так что вы не забудуте прочитать урок.</string>
     <string name="setup_reminder">Установить напоминание</string>
     <string name="save_group">Сохранить подборку</string>
-    <string name="group_has_been_saved">Подборка успешно сохранена. Теперь она будет доступна в меню.</string>
     <string name="your_groups">Ваши подборки</string>
     <string name="new_group">Новая  подборка</string>
     <string name="edit_group">Редактировать подборку</string>
@@ -34,12 +32,12 @@
     <string name="removing_system_group_is_not_allowed">Сейчас в списке подборок уроков только те, которые нельзя удалить - они группированы редактором.</string>
     <string name="see_groups">Посмотреть</string>
     <string name="there_are_not_any_group">Пока что тут не ни одной подборки. Но вы можете создать новую, кликнув по кнопке на Панели инструментов.</string>
-    <string name="about_theme_feedback">Пожалуйста, выберите тему: так нам будет легче разобраться с ответами.</string>
-    <string name="leave_email_if_would">Если хотите, можно оставить свой email - мы обзательно ответим.</string>
-    <string name="message_feedback_not_empty">Тут надо будет что-то ввести. Еще раз спасибо.</string>
-    <string name="thanks_for_feedback">Спасибо за ваш отзыв!</string>
     <string name="privacy_statement">Соглашение о конфиденциальности</string>
     <string name="about_program_string">О программе</string>
     <string name="propose_user_to_select_lessons">Отметьте флажками те уроки, которые надо добавить в новую подборку.</string>
     <string name="too_long_group_name">Извините, это слишком длинное имя для группы. Пожалуйста, уложитесь в 50 символов.</string>
+    <string name="app_short_name_in_translations">Мобильная грамматика</string>
+    <string name="text_reminder">Есть подборка уроков для изучения в "Мобильной грамматике"</string>
+    <string name="text_reminder_about_group">Есть подборка уроков для изучения в "Мобильной грамматике"</string>
+    <string name="text_reminder_about_lesson">Есть урок для изучения в "Мобильной грамматике"</string>
 </resources>

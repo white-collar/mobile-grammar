@@ -55,7 +55,7 @@ public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
                         selectedItemsPositions.put(position, _position);
                 } else {
                     // if selected checkbox was unselected - so, remove his id from hashmap
-                    selectedItemsPositions.remove((Object) position);
+                    selectedItemsPositions.remove(position);
                 }
                 // manage the visibility of layout with edittext and button
                 if (selectedItemsPositions.size() == 0) {

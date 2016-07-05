@@ -61,6 +61,10 @@ public class AllArticlesListViewActivity extends AppCompatActivity
         statusToShow = (ActivityArticlesStatusToShow) this.getIntent().getSerializableExtra("status_what_show");
         String groupName = this.getIntent().getStringExtra("group_name");
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.all_articles_menu_title));
+
         // if there is start activity, so show drawer
         if (groupId == 0 || groupId == -1) {
             initDrawer();
@@ -142,6 +146,9 @@ public class AllArticlesListViewActivity extends AppCompatActivity
         if (groupName != null) {
             getSupportActionBar().setTitle(groupName);
         }
+        else {
+            getSupportActionBar().setTitle(getString(R.string.all_articles_menu_title));
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,9 +178,11 @@ public class AllArticlesListViewActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        if (sequenceIds == null) {
+            getMenuInflater().inflate(R.menu.main, menu);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -287,8 +296,10 @@ public class AllArticlesListViewActivity extends AppCompatActivity
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Cursor c = (Cursor) parent.getItemAtPosition(position);
             String html = c.getString(c.getColumnIndexOrThrow("html"));
+            String lessonName = c.getString(c.getColumnIndexOrThrow("title"));
             Intent intent = new Intent(getApplicationContext(), WebViewActivity.class);
             intent.putExtra("html", html);
+            intent.putExtra("lesson_name", lessonName);
             startActivity(intent);
         }
     };

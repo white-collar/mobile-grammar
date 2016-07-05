@@ -7,10 +7,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Date;
 
 /**
  * This class is form to add reminder about group and save group to database
@@ -73,6 +76,10 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
         groupName = this.getIntent().getStringExtra("created_group_name");
         // list of selected checkboxes's ids
         listOfIdsLessons = this.getIntent().getStringExtra("list_of_ids");
+
+        Button buttonSetupReminder = (Button) findViewById(R.id.buttonSetupReminder);
+        buttonSetupReminder.setOnClickListener(new AdderReminder(groupName));
+
         //status of operation: new record or update
         StatusOfDatabaseOperation statusOperation = (StatusOfDatabaseOperation) this.
                 getIntent().
@@ -181,6 +188,36 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private final class AdderReminder implements View.OnClickListener {
+
+        private String groupName;
+
+        public AdderReminder(String groupName) {
+            this.groupName = groupName;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent();
+
+            // mimeType will popup the chooser any  for any implementing application (e.g. the built in calendar or applications such as "Business calendar"
+            intent.setType("vnd.android.cursor.item/event");
+
+            // the time the event should start in millis. This example uses now as the start time and ends in 1 hour
+            intent.putExtra("beginTime", new Date().getTime());
+            intent.putExtra("endTime", new Date().getTime() + DateUtils.HOUR_IN_MILLIS);
+
+            intent.putExtra("title", R.string.text_reminder_about_group);
+
+            intent.putExtra("title", getString(R.string.text_reminder_about_group));
+            intent.putExtra("description", getString(R.string.text_reminder_about_group) + ":" + groupName);
+
+            // the action
+            intent.setAction(Intent.ACTION_EDIT);
+            startActivity(intent);
         }
     }
 }

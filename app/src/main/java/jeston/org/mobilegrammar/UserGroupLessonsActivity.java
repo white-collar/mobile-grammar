@@ -40,6 +40,8 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
     // constant to define what maximum groups must be in listview to turn of search field
     private static final int LIMIT_TO_SHOW_SEARCH_FIELD = 10;
 
+    TextView searchTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
             // if row's count in listview greater than constant ...
             if (userGroupLessonsListView.getCount() > LIMIT_TO_SHOW_SEARCH_FIELD) {
                 // ... so there is sense to show search field
-                TextView searchTextView = (TextView) findViewById(R.id.editTextSearchField);
+                searchTextView = (TextView) findViewById(R.id.editTextSearchField);
                 searchTextView.setVisibility(View.VISIBLE);
                 searchTextView.addTextChangedListener(textWatcher);
 
@@ -132,20 +134,14 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * We show context menu only on user's custon group. Removing the system groups is not allowed
-     *
-     * @param menu
-     * @param v
-     * @param menuInfo
-     */
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId() == R.id.listViewUserGroups) {
-                MenuInflater inflater = getMenuInflater();
-                inflater.inflate(R.menu.context_menu_lisview_groups_operation, menu);
-        }
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu_lisview_groups_operation, menu);
+
     }
 
     /**
@@ -222,9 +218,6 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.button_show_search_field) {
-            return true;
-        } else {
             if (id == R.id.action_add_group) {
                 // create new group - just start activity to do this
                 Intent intent = new Intent(getApplicationContext(), FormCreateNewGroupActivity.class);
@@ -241,7 +234,6 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
                                 .show();
                 }
             }
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -276,6 +268,8 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
             // clear groups from database
             Cursor groupsNamesToBeDeleted = mDbHelper.removeAllGroups();
             userGroupLessonsViewAdapter.changeCursor(groupsNamesToBeDeleted);
+            TextView emptyListUserGroupTextView = (TextView) findViewById(R.id.emptyListUserGroupTextView);
+            emptyListUserGroupTextView.setVisibility(View.VISIBLE);
             Toast.makeText(getApplicationContext(), groups_have_been_removed, Toast.LENGTH_SHORT).show();
         }
     };
@@ -299,6 +293,10 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
             // remove group from database
             Cursor groupsAfterRemovingSelectedGroup = mDbHelper.removeGroup(this.getGroupId());
             userGroupLessonsViewAdapter.changeCursor(groupsAfterRemovingSelectedGroup);
+            if (groupsAfterRemovingSelectedGroup.getCount() == 0) {
+                TextView emptyListUserGroupTextView = (TextView) findViewById(R.id.emptyListUserGroupTextView);
+                emptyListUserGroupTextView.setVisibility(View.VISIBLE);
+            }
             Toast.makeText(getApplicationContext(), R.string.this_group_has_been_removed, Toast.LENGTH_SHORT).show();
         }
     }
