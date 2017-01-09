@@ -16,9 +16,10 @@
                 android:title="@string/group3_title_menu" />
             <item android:id="@+id/menu_group4" android:icon="@drawable/lessons_group"
                 android:title="@string/group4_title_menu" />
+            <item android:id="@+id/menu_group_irregular_verbs" android:title="@string/irregular_verbs"/>
         </menu>
     </item>
-    <item android:title="@string/your_groups">
+    <item android:title="@string/your_groups" android:id="@+id/menu_item_user_groups">
         <menu>
             <item android:id="@+id/menu_user_groups" android:icon="@drawable/your_groups_icon"
                 android:title="@string/see_groups" />

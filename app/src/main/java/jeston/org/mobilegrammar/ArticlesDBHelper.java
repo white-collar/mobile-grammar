@@ -19,9 +19,9 @@ import java.io.OutputStream;
 public class ArticlesDBHelper extends SQLiteOpenHelper {
 
     // database name from asset folder
-    private static final String DATABASE_NAME = "db8.db";
+    private static final String DATABASE_NAME = "db11.db";
     // database version
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 12;
     // database path (will be assigned in runtime)
     private static String DATABASE_PATH = "";
     // context of app (will be assigned in constructor)

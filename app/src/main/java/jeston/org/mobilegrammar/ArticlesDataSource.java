@@ -31,7 +31,7 @@ public class ArticlesDataSource {
     /**
      * Wrapper for createDatabase in helper. Will be called in listview activity
      *
-     * @return
+     * @return instance of  ArticlesDataSource
      * @throws SQLException
      */
     public ArticlesDataSource createDatabase() throws SQLException {
@@ -46,7 +46,7 @@ public class ArticlesDataSource {
     /**
      * Wrapper for openDatabase in helper. Will be called in listview activity
      *
-     * @return
+     * @return ArticlesDataSource
      * @throws SQLException
      */
     public ArticlesDataSource open() throws SQLException {
@@ -70,7 +70,7 @@ public class ArticlesDataSource {
     /**
      * Returns all artilces to show in listview
      *
-     * @return
+     * @return Cursor
      */
     public Cursor getAllArticles() {
         try {
@@ -91,9 +91,9 @@ public class ArticlesDataSource {
      * 1. Find all articles - in this case we have ids as null
      * 2. Find articles inside group - in this case we must to pass ids of group. In activity we have getIdsOfGroup() to do this.
      *
-     * @param articleName
-     * @param ids
-     * @return
+     * @param articleName name of article
+     * @param ids sequence of ids of article where we need to search
+     * @return Cursor
      */
     public Cursor findArticles(String articleName, String ids) {
         try {
@@ -127,8 +127,7 @@ public class ArticlesDataSource {
             mCur.moveToNext();
         }
         // ids of lessons to select
-        String listForSQlExpression = mCur.getString(mCur.getColumnIndexOrThrow("_id"));
-        return listForSQlExpression;
+        return mCur.getString(mCur.getColumnIndexOrThrow("_id"));
     }
 
     public Cursor findGroups(String groupName) {
@@ -151,7 +150,7 @@ public class ArticlesDataSource {
      * Get all articles which are in created group
      *
      * @param groupId group identifier
-     * @return
+     * @return Cursor
      */
     public Cursor getArticlesByGroup(long groupId) {
         try {
@@ -233,7 +232,7 @@ public class ArticlesDataSource {
 
     /**
      * Removes group by id (used in contextMenu in UserGroupLessonActivity)
-     * @param groupId
+     * @param groupId group id to remove
      * @return
      */
     public Cursor removeGroup(long groupId) {

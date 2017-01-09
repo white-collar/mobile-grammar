@@ -40,7 +40,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
     // constant to define what maximum groups must be in listview to turn of search field
     private static final int LIMIT_TO_SHOW_SEARCH_FIELD = 10;
 
-    TextView searchTextView;
+    private TextView searchTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,9 +147,10 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
     /**
      * Provides two actions: edit and hide a group
      *
-     * @param item
+     * @param item MenuItem
      * @return
      */
+    @SuppressWarnings("JavaDoc")
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -210,6 +211,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
      * @param item
      * @return
      */
+    @SuppressWarnings("JavaDoc")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -275,7 +277,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
     };
 
 
-    // innder class to remove group by her id. It needs new class becouse of we need to pass the variable - id
+    // inder class to remove group by her id. It needs new class becouse of we need to pass the variable - id
     private class AlertRemoveGroupById implements DialogInterface.OnClickListener {
 
         private long groupId;

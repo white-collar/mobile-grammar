@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Jeston on 21.06.2016.
+ * Cursor adapter for listview with articles
  */
+
 public class ArticleCursorAdapter extends CursorAdapter {
 
     public ArticleCursorAdapter(Context context, Cursor cursor, int flags) {

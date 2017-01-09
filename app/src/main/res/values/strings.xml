@@ -11,7 +11,7 @@
     <string name="search_enter_article_name">Enter article name …</string>
 
     <string name="nothing_found">Opps! No such lessons.</string>
-    
+
     <string name="lessons_by_chapters">Chapters</string>
 
     <string name="user_group_has_not_been_found">It seems that there is no such group.</string>
@@ -55,7 +55,6 @@
     <string name="removing_group">Removing this group</string>
 
 
-
     <string name="see_groups">See groups</string>
 
 
@@ -70,4 +69,11 @@
     <string name="text_reminder_about_group">There are the group of lessons to study the "Mobile grammar"</string>
     <string name="text_reminder_about_lesson">There are the lesson to study the "Mobile grammar"</string>
     <string name="text_reminder">There is the group to study in "Mobile Grammatics"</string>
+
+    <string name="update_group">Update group</string>
+    <string name="text_about_updating">Updating the group</string>
+
+    <!-- new version with irregular verbs -->
+
+    <string name="irregular_verbs">Irregular verbs</string>
 </resources>

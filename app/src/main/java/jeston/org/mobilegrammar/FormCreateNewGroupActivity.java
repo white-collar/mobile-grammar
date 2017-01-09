@@ -12,12 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -45,8 +41,6 @@ public class FormCreateNewGroupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        initToolbarWithBackButton();
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_form_create_new_group);
@@ -83,6 +77,7 @@ public class FormCreateNewGroupActivity extends AppCompatActivity {
             TextView editTextLessonName = (TextView) findViewById(R.id.editTextLessonName);
             editTextLessonName.setText(groupName);
 
+            initToolbarWithBackButton(getString(R.string.text_about_updating));
             goToCreateReminderButton.setOnClickListener(new SaverGroupToDatabase(StatusOfDatabaseOperation.UPDATE, id));
         } else {
             // just create group - show all lessons
@@ -90,6 +85,7 @@ public class FormCreateNewGroupActivity extends AppCompatActivity {
             lessonsViewAdapter = new LessonsWithCheckboxCursorAdapter(this, lessonsCursor, 0);
             lessonsListViewItems.setAdapter(lessonsViewAdapter);
 
+            initToolbarWithBackButton(null);
             goToCreateReminderButton.setOnClickListener(new SaverGroupToDatabase(StatusOfDatabaseOperation.NEW));
         }
 
@@ -109,12 +105,15 @@ public class FormCreateNewGroupActivity extends AppCompatActivity {
         mDbHelper.close();
     }
 
-    private void initToolbarWithBackButton() {
+    private void initToolbarWithBackButton(String textAboutUpdating) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        if (textAboutUpdating != null) {
+            getSupportActionBar().setTitle(textAboutUpdating);
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,11 +195,9 @@ public class FormCreateNewGroupActivity extends AppCompatActivity {
             if (groupName.length() == 0) {
                 // if no one checkbox is selected - show toast about this
                 Toast.makeText(getApplicationContext(), R.string.no_group_name_entered_by_user, Toast.LENGTH_SHORT).show();
-                return;
             } else if (groupName.length() > MAX_LENGTH_GROUP_NAME) {
                 editTextLessonName.setText("");
                 Toast.makeText(getApplicationContext(), R.string.too_long_group_name, Toast.LENGTH_SHORT).show();
-                return;
             } else {
                 {
                     Intent intent = new Intent(getApplicationContext(), AddReminderToGroupActivity.class);

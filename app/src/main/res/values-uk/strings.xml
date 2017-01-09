@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Мобільна граматика: English</string>
-    <string name="action_settings">Зворотній зв\'язок</string>
     <string name="all_articles_menu_title">Усі уроки</string>
     <string name="search_enter_article_name">Який урок знайти ?</string>
     <string name="nothing_found">Схоже, що такого уроку немає. Спробуйте увести щось інше.</string>
@@ -47,4 +46,7 @@
     <string name="text_reminder">Є добірка уроків для вивчення в "Мобільної граматиці"</string>
     <string name="text_reminder_about_group">Є добірка уроків для вивчення в "Мобільної граматиці"</string>
     <string name="text_reminder_about_lesson">Є урок для вивчення в "Мобільній граматиці"</string>
+    <string name="update_group">Оновити добірку</string>
+    <string name="text_about_updating">Оновлення добірки</string>
+    <string name="irregular_verbs">Неправильні дієслова</string>
 </resources>

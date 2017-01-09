@@ -6,11 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 /**
- * Created by Jeston on 21.06.2016.
+ * Adapter for groups of lessons.
  */
 public class LessonsGroupCursorAdapter extends CursorAdapter {
 

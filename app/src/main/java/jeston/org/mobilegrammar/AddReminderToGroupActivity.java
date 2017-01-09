@@ -66,7 +66,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
 //        });
         //------------------------------
 
-        initToolbarWithBackButton();
+
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_add_reminder_to_group);
@@ -85,6 +85,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
                 getIntent().
                 getSerializableExtra("status_operation");
 
+
         // show name of group lesson on form textview
         TextView textViewNameNewGroup = (TextView) findViewById(R.id.textViewNameNewGroup);
         textViewNameNewGroup.setText(groupName);
@@ -94,20 +95,26 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
 
         if (statusOperation == StatusOfDatabaseOperation.NEW) {
             saveGroupButton.setOnClickListener(saveGroupListener);
+            saveGroupButton.setText(getString(R.string.save_group));
+            initToolbarWithBackButton(null);
         } else {
             if (statusOperation == StatusOfDatabaseOperation.UPDATE) {
                 long idGroupToBeUpdated = this.getIntent().getLongExtra("id_group_to_be_updated", -1);
+                initToolbarWithBackButton(getString(R.string.text_about_updating));
+                saveGroupButton.setText(getString(R.string.update_group));
                 saveGroupButton.setOnClickListener(new UpdaterLessonGroupListener(idGroupToBeUpdated));
             }
         }
     }
 
-    private void initToolbarWithBackButton() {
+    private void initToolbarWithBackButton(String textAboutUpdating) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        if (textAboutUpdating != null) {
+            getSupportActionBar().setTitle(textAboutUpdating);
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,6 +187,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
                     // ... and go to activity to show it
                     Intent intent = new Intent(getApplicationContext(), AllArticlesListViewActivity.class);
                     intent.putExtra("group_id", getIdGroupToBeUpdated());
+                    intent.putExtra("group_name", groupName);
                     intent.putExtra("status_what_show", ActivityArticlesStatusToShow.SHOW_ALL_GROUPS);
                     startActivity(intent);
                 } else {

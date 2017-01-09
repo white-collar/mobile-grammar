@@ -24,20 +24,35 @@ public class AboutProgramActivity extends AppCompatActivity {
         initToolbarWithBackButton();
 
         WebView webView = (WebView) findViewById(R.id.webViewAboutProgram);
-        switch (Locale.getDefault().getLanguage()) {
-            case "uk":
-                webView.loadUrl("file:///android_asset/about/about_ua.html");
-                break;
-            case "en":
-                webView.loadUrl("file:///android_asset/about/about_en.html");
-                break;
-            case "ru":
-                webView.loadUrl("file:///android_asset/about/about_ru.html");
-                break;
+        if (BuildConfig.FLAVOR == "free") {
+            switch (Locale.getDefault().getLanguage()) {
+                case "uk":
+                    webView.loadUrl("file:///android_asset/about/about_ua_free.html");
+                    break;
+                case "ru":
+                    webView.loadUrl("file:///android_asset/about/about_ru_free.html");
+                    break;
+                default:
+                    webView.loadUrl("file:///android_asset/about/about_ua_free.html");
+                    break;
+            }
+        } else if (BuildConfig.FLAVOR == "pro") {
+            switch (Locale.getDefault().getLanguage()) {
+                case "uk":
+                    webView.loadUrl("file:///android_asset/about/about_ua.html");
+                    break;
+                case "ru":
+                    webView.loadUrl("file:///android_asset/about/about_ru.html");
+                    break;
+                default:
+                    webView.loadUrl("file:///android_asset/about/about_ua.html");
+                    break;
+            }
         }
+
     }
 
-    protected void initToolbarWithBackButton() {
+    private void initToolbarWithBackButton() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

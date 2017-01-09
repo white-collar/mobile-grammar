@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/context_menu_privacy_statement"
-        android:title="@string/privacy_statement" />
-</menu>

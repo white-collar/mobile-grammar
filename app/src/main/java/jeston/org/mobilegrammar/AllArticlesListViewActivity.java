@@ -180,6 +180,11 @@ public class AllArticlesListViewActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         if (sequenceIds == null) {
             getMenuInflater().inflate(R.menu.main, menu);
+            if (BuildConfig.FLAVOR == "free") {
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                Menu menuNavigationView = navigationView.getMenu();
+                menuNavigationView.findItem(R.id.menu_item_user_groups).setVisible(false);
+            }
             return true;
         }
         return false;
@@ -254,6 +259,10 @@ public class AllArticlesListViewActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.menu_user_groups) {
             Intent intent = new Intent(this, UserGroupLessonsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.menu_group_irregular_verbs) {
+            Intent intent = new Intent(this, IrregularVerbsActivity.class);
             startActivity(intent);
         }
 

@@ -40,4 +40,7 @@
     <string name="text_reminder">Есть подборка уроков для изучения в "Мобильной грамматике"</string>
     <string name="text_reminder_about_group">Есть подборка уроков для изучения в "Мобильной грамматике"</string>
     <string name="text_reminder_about_lesson">Есть урок для изучения в "Мобильной грамматике"</string>
+    <string name="update_group">Обновить подборку</string>
+    <string name="text_about_updating">Обновление подборки</string>
+    <string name="irregular_verbs">Неправильные глаголы</string>
 </resources>

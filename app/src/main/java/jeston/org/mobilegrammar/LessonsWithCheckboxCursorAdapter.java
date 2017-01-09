@@ -16,14 +16,15 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 /**
- * Created by Jeston on 21.06.2016.
+ * Adapter for form with checkbox - adding lessons to group
  */
+
 public class LessonsWithCheckboxCursorAdapter extends CursorAdapter {
 
     // global link to linear layout - it uses newView() and bindView()
     private LinearLayout topLayoutLessonGroup;
     // hashmap to store id of checkbox in listview and id of this record in database
-    HashMap<Integer, Integer> selectedItemsPositions;
+    private HashMap<Integer, Integer> selectedItemsPositions;
     // instance of listview in checkbox listener
     private ViewGroup parentView;
 

@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "757956947550",
+    "project_id": "mobilegrammar-4dd2f"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757956947550:android:d1f48fc170878f0c",
+        "android_client_info": {
+          "package_name": "jeston.org.mobilegrammar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8r6xiLhvzAAy3c6TaG0fjDGvVe0DX_EM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-80461351-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

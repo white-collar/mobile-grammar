@@ -9,13 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.util.Date;
 
 public class WebViewActivity extends AppCompatActivity {
 
-    String lessonName;
+    private String lessonName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,6 @@ public class WebViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                return;
             }
         });
 
@@ -45,14 +46,14 @@ public class WebViewActivity extends AppCompatActivity {
         String mime = "text/html";
         String encoding = "utf-8";
 
-        WebView myWebView = (WebView) findViewById(R.id.webViewArcticle);
+        final WebView myWebView = (WebView) findViewById(R.id.webViewArcticle);
 
-
-        myWebView.getSettings().setJavaScriptEnabled(false);
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.setWebViewClient(webViewClient);
         myWebView.loadDataWithBaseURL(null, html, mime, encoding, null);
-
-
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,5 +89,17 @@ public class WebViewActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private final WebViewClient webViewClient = new WebViewClient(){
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.append("var elements = document.getElementsByTagName('a');");
+            sb.append("for (var i = 0; i <elements.length; i++) {");
+            sb.append("elements[i].onclick=function() {return(false);};};");
+            view.loadUrl("javascript:" + sb.toString());
+        }
+    };
 
 }
