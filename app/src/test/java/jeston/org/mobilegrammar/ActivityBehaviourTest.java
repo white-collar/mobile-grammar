@@ -12,6 +12,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.google.android.material.navigation.NavigationView;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -42,6 +44,14 @@ public class ActivityBehaviourTest {
         AllArticlesListViewActivity activity = Robolectric.setupActivity(AllArticlesListViewActivity.class);
         ListView list = (ListView) activity.findViewById(R.id.listViewArticles);
         assertEquals(130, list.getAdapter().getCount());
+    }
+
+    @Test
+    public void irregularVerbsAreHiddenInDrawer() {
+        AllArticlesListViewActivity activity = Robolectric.setupActivity(AllArticlesListViewActivity.class);
+        NavigationView navigationView = (NavigationView) activity.findViewById(R.id.nav_view);
+        assertFalse(navigationView.getMenu().findItem(R.id.menu_group_irregular_verbs).isVisible());
+        assertTrue(navigationView.getMenu().findItem(R.id.menu_group1).isVisible());
     }
 
     @Test
