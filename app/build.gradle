@@ -1,42 +1,44 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    namespace 'jeston.org.mobilegrammar'
+    compileSdk 35
+    // product flavors must belong to a flavor dimension
+    flavorDimensions 'version'
     productFlavors {
         free {
+            dimension 'version'
             applicationId "org.mobile.grammar"
             versionName "1.8"
         }
         pro {
+            dimension 'version'
             applicationId "org.mobile.grammar"
             versionName "2.0"
         }
     }
 
-    configurations.all {
-        resolutionStrategy.force 'com.android.support:support-annotations:23.0.1'
-    }
-
     defaultConfig {
         applicationId "jeston.org.mobilegrammar"
-        minSdkVersion 14
-        targetSdkVersion 24
+        // AndroidX libraries require Android 5.0 (API 21) or newer
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode 5
         versionName "2.0"
         // runner of instrumentation tests
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testHandleProfiling true
         testFunctionalTest true
-        // Stops the Gradle plugin's automatic rasterization of vectors
-        //generatedDensities = []
         multiDexEnabled true
     }
-    // Flag to tell aapt to keep the attribute ids around
-    // This is handled for you by the 2.0+ Gradle Plugin
-    aaptOptions {
-        additionalParameters "--no-version-vectors"
+    buildFeatures {
+        // BuildConfig.FLAVOR is used to tell the free and pro versions apart
+        buildConfig true
     }
+    // ApplicationTest uses the legacy android.test classes
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
     buildTypes {
         release {
             minifyEnabled true
@@ -46,21 +48,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'org.hamcrest:hamcrest-library:1.3'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
     // junit for instrumentation test
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
 
-    androidTestCompile('com.android.support.test:runner:0.3') {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
-    // Set this dependency if you want to use Hamcrest matching
-
-
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
 }
-
-

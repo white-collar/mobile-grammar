@@ -4,11 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -55,8 +56,8 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
 
         userGroupLessonsListView = (ListView) findViewById(R.id.listViewUserGroups);
 
-        com.melnykov.fab.FloatingActionButton fab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToListView(userGroupLessonsListView);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FabScrollHelper.attachToListView(fab, userGroupLessonsListView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +92,7 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
                 searchTextView.addTextChangedListener(textWatcher);
 
                 // init fab and set event to scroll to top of listview
-                fab.attachToListView(userGroupLessonsListView);
+                FabScrollHelper.attachToListView(fab, userGroupLessonsListView);
                 fab.setVisibility(View.VISIBLE);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -165,26 +166,27 @@ public class UserGroupLessonsActivity extends AppCompatActivity {
         // We extract name of group if user would want to edit name
         String groupNameToEdit = c.getString(c.getColumnIndexOrThrow("title"));
 
-        switch (item.getItemId()) {
-            case R.id.context_menu_edit_group:
-                // edit group
-                Intent intent = new Intent(getApplicationContext(), FormCreateNewGroupActivity.class);
-                intent.putExtra("edit_group", id);
-                intent.putExtra("group_name", groupNameToEdit);
-                startActivity(intent);
-                return true;
-            case R.id.context_menu_remove_group:
-                // remove group. User must confirm the removing
-                new AlertDialog.Builder(this)
-                        .setIcon(R.drawable.drawer_icon)
-                        .setTitle(R.string.removing_group)
-                        .setMessage(R.string.this_will_remove_selected_group)
-                        .setPositiveButton(message_ok, new AlertRemoveGroupById(id))
-                        .setNegativeButton(message_cancel, null)
-                        .show();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+        // resource ids are not constants since Android Gradle plugin 8, so they can't be used in switch
+        int itemId = item.getItemId();
+        if (itemId == R.id.context_menu_edit_group) {
+            // edit group
+            Intent intent = new Intent(getApplicationContext(), FormCreateNewGroupActivity.class);
+            intent.putExtra("edit_group", id);
+            intent.putExtra("group_name", groupNameToEdit);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.context_menu_remove_group) {
+            // remove group. User must confirm the removing
+            new AlertDialog.Builder(this)
+                    .setIcon(R.drawable.drawer_icon)
+                    .setTitle(R.string.removing_group)
+                    .setMessage(R.string.this_will_remove_selected_group)
+                    .setPositiveButton(message_ok, new AlertRemoveGroupById(id))
+                    .setNegativeButton(message_cancel, null)
+                    .show();
+            return true;
+        } else {
+            return super.onContextItemSelected(item);
         }
     }
 
