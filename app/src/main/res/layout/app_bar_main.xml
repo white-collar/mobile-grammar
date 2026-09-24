@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout android:layout_height="wrap_content"
         android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+        <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:animateLayoutChanges="true"
@@ -34,10 +33,10 @@
                 android:layout_alignParentStart="true"
                 />
 
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
 
         
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ViewStub
         android:id="@+id/layout_stub"
@@ -46,7 +45,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0.75" />
 
-    <com.melnykov.fab.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:visibility="invisible"
         android:layout_width="wrap_content"
@@ -54,14 +53,14 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@drawable/ic_arrow_upward_white_24dp"
-        fab:fab_colorNormal="@color/floatingButtonBackground"
-        fab:fab_colorPressed="@color/floatingButtonBackground"
+        app:backgroundTint="@color/floatingButtonBackground"
+        app:tint="@android:color/white"
          />
 
-    <!--<android.support.design.widget.FloatingActionButton android:id="@+id/fab"-->
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@+id/fab"-->
         <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
         <!--android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"-->
         <!--android:backgroundTint= "@color/floatingButtonBackground"-->
         <!--android:src="@drawable/ic_arrow_upward_white_24dp" />-->
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

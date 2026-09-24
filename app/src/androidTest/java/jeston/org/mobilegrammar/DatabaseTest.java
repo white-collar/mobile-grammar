@@ -1,13 +1,13 @@
 package jeston.org.mobilegrammar;
 
 import android.database.Cursor;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import android.util.Log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -63,5 +63,7 @@ public class DatabaseTest {
         assertTrue(cursor.getCount() > 0);
     }
 
-
+    private static android.content.Context getTargetContext() {
+        return InstrumentationRegistry.getInstrumentation().getTargetContext();
+    }
 }
