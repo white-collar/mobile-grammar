@@ -100,13 +100,14 @@ public class ArticlesDataSource {
             String sql;
             if (ids == null) {
                 sql = "select  _id as _id, unit_number as title, html as html from articles \n" +
-                        "where unit_number like '%" + articleName + "%' order by _id ";
+                        "where unit_number like ? order by _id ";
             } else {
                 sql = "select  _id as _id, unit_number as title, html as html from articles \n" +
-                        "where unit_number like '%" + articleName + "%' and _id in (" + ids + ") order by _id ";
+                        "where unit_number like ? and _id in (" + ids + ") order by _id ";
             }
 
-            Cursor mCur = mDb.rawQuery(sql, null);
+            // search text is bound as a parameter, never concatenated into SQL
+            Cursor mCur = mDb.rawQuery(sql, new String[]{"%" + articleName + "%"});
 
             if (mCur != null) {
                 mCur.moveToNext();
@@ -133,9 +134,9 @@ public class ArticlesDataSource {
     public Cursor findGroups(String groupName) {
         try {
             String sql = "select  _id as _id, name as title, ids as ids from groups_lesson \n" +
-                    "where title like '%" + groupName + "%' order by _id ";
+                    "where title like ? order by _id ";
 
-            Cursor mCur = mDb.rawQuery(sql, null);
+            Cursor mCur = mDb.rawQuery(sql, new String[]{"%" + groupName + "%"});
 
             if (mCur != null) {
                 mCur.moveToNext();
