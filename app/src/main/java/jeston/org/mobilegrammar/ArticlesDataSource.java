@@ -54,11 +54,29 @@ public class ArticlesDataSource {
             mDbHelper.openDataBase();
             mDbHelper.close();
             mDb = mDbHelper.getReadableDatabase();
+            fixLessonTitles();
         } catch (SQLException mSQLException) {
             throw mSQLException;
         }
         return this;
     }
+
+    /**
+     * Corrects titles which were wrong in the first versions of the database.
+     * Database is copied only on first launch, so installed apps are fixed here;
+     * rows with correct titles are not touched.
+     */
+    private void fixLessonTitles() {
+        if (mDb.isReadOnly()) return;
+        // HTML code of apostrophe was shown as is: "doesn&apos;t"
+        mDb.execSQL("update articles set unit_number = replace(unit_number, '&apos;', '''') "
+                + "where unit_number like '%&apos;%'");
+        mDb.execSQL("update articles set unit_number = ? where _id = 106 and unit_number <> ?",
+                new Object[]{UNIT_106_TITLE, UNIT_106_TITLE});
+    }
+
+    // title of lesson 106 repeated the one of lesson 105
+    private static final String UNIT_106_TITLE = "Unit 106 - Word order (2) - adverbs with the verb";
 
     /**
      * Wrapper for closeDatabase in helper. Will be called in listview activity.
