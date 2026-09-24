@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +44,18 @@ public class AllArticlesListViewActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DrawerBackHandler.install(this, new DrawerBackHandler.BackAction() {
+            @Override
+            public boolean onBack() {
+                // back to all groups if this activity shows lessons of group
+                if (statusToShow != null) {
+                    Intent intent = new Intent(AllArticlesListViewActivity.this, UserGroupLessonsActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
         // load layout with activity
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.layout_all_articles_list_view);
@@ -155,25 +166,6 @@ public class AllArticlesListViewActivity extends AppCompatActivity
                 finish();
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            // back to all groups
-            // super.onBackPressed();
-            if (statusToShow != null) {
-                Log.w("true", statusToShow.toString());
-                Intent intent = new Intent(this, UserGroupLessonsActivity.class);
-                startActivity(intent);
-            } else {
-                Log.w("false", "false");
-                super.onBackPressed();
-            }
-        }
     }
 
     @Override

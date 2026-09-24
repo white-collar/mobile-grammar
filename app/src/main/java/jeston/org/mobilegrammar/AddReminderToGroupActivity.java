@@ -3,8 +3,6 @@ package jeston.org.mobilegrammar;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.format.DateUtils;
@@ -29,6 +27,7 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DrawerBackHandler.install(this);
 
 //        context = getApplicationContext();
 //        Button button = (Button) findViewById(R.id.test);
@@ -123,15 +122,6 @@ public class AddReminderToGroupActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
 
 

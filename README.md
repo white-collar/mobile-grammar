@@ -5,7 +5,8 @@ This program is available in Play Market right now.
 
 ## Building
 
-Requires JDK 17+ and the Android SDK (platform 35). Android Studio sets both up.
+Requires JDK 21 and the Android SDK (platform 36). Android Studio sets both up.
+Unit tests (`./gradlew test`) run the screens with Robolectric, without a device.
 
 Google Play expects an Android App Bundle (`.aab`), not an APK:
 
