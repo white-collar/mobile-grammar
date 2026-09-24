@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace 'jeston.org.mobilegrammar'
-    compileSdk 35
+    compileSdk 36
     // product flavors must belong to a flavor dimension
     flavorDimensions 'version'
     productFlavors {
@@ -22,8 +22,8 @@ android {
         applicationId "jeston.org.mobilegrammar"
         // AndroidX libraries require Android 5.0 (API 21) or newer
         minSdkVersion 21
-        targetSdkVersion 35
-        versionCode 5
+        targetSdkVersion 36
+        versionCode 6
         versionName "2.0"
         // runner of instrumentation tests
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,6 +39,14 @@ android {
     useLibrary 'android.test.runner'
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
+    testOptions {
+        // Robolectric tests need merged resources and assets (lessons database)
+        unitTests.includeAndroidResources = true
+        // Robolectric's Android 16 runtime needs access to JDK internals
+        unitTests.all {
+            jvmArgs '--add-exports=java.base/jdk.internal.access=ALL-UNNAMED'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -52,6 +60,10 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
     // junit for instrumentation test
     testImplementation 'junit:junit:4.13.2'
+    // runs activities on JVM, without device or emulator
+    testImplementation 'org.robolectric:robolectric:4.17'
+    testImplementation 'androidx.test:core:1.6.1'
+    testImplementation 'androidx.test.ext:junit:1.2.1'
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'

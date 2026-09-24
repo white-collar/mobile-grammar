@@ -16,7 +16,9 @@
                 android:title="@string/group3_title_menu" />
             <item android:id="@+id/menu_group4" android:icon="@drawable/lessons_group"
                 android:title="@string/group4_title_menu" />
-            <item android:id="@+id/menu_group_irregular_verbs" android:title="@string/irregular_verbs"/>
+            <!-- hidden until IrregularVerbsActivity has content: its placeholder layout has no toolbar -->
+            <item android:id="@+id/menu_group_irregular_verbs" android:title="@string/irregular_verbs"
+                android:visible="false" />
         </menu>
     </item>
     <item android:title="@string/your_groups" android:id="@+id/menu_item_user_groups">
